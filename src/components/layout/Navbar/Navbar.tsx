@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
-import { ArrowRight, Menu, Wrench, X } from 'lucide-react'
+import { ArrowRight, Menu, X } from 'lucide-react'
+import tradeyardIcon from '../../../assets/images/traadeyard-icon.png'
 import { Button } from '../../ui/Button/Button'
 import { Container } from '../../ui/Container/Container'
 import { cn } from '../../../lib/cn'
@@ -65,8 +66,13 @@ export function Navbar() {
           className="flex items-center gap-3"
           aria-label="Tradeyard home"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f3f0e7] text-black">
-            <Wrench size={22} aria-hidden="true" />
+          <span className="flex h-10 w-10 items-center justify-center">
+            <img
+              src={tradeyardIcon}
+              alt=""
+              className="h-full w-full object-contain"
+              aria-hidden="true"
+            />
           </span>
           <span className="text-xl font-black uppercase">Tradeyard</span>
         </motion.a>

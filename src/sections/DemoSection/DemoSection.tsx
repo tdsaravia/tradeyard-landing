@@ -157,11 +157,13 @@ export function DemoSection() {
           </motion.div>
 
           <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm leading-6 text-[#bdb9ae]">
-              {submittedName
-                ? `Thanks, ${submittedName}. Your request is ready for a backend endpoint.`
-                : 'Validated locally with react-hook-form and zod.'}
-            </p>
+            {submittedName ? (
+              <p className="text-sm leading-6 text-[#bdb9ae]">
+                Thanks, {submittedName}. Your request is ready for a backend endpoint.
+              </p>
+            ) : (
+              <span aria-hidden="true" />
+            )}
             <Button
               type="submit"
               icon={<Send size={18} aria-hidden="true" />}
