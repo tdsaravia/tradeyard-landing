@@ -40,18 +40,25 @@ function Field({ children, error, label }: FieldProps) {
 const inputClassName =
   'min-h-12 w-full rounded-lg border border-[#383838] bg-[#0d0d0d] px-4 py-3 text-[#f3f0e7] outline-none transition placeholder:text-[#77736b] focus:border-[#f3631f]'
 
+type SubmissionFeedback = {
+  message: string
+  type: 'error' | 'success'
+}
+
 export function DemoSection() {
-  const [submittedName, setSubmittedName] = useState<string | null>(null)
+  const [submissionFeedback, setSubmissionFeedback] =
+    useState<SubmissionFeedback | null>(null)
   const reveal = useScrollReveal({ amount: 0.24 })
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     register,
     reset,
     setError,
   } = useForm<DemoFormValues>({ defaultValues })
 
-  const onSubmit = (values: DemoFormValues) => {
+  const onSubmit = async (values: DemoFormValues) => {
+    setSubmissionFeedback(null)
     const parsed = demoSchema.safeParse(values)
 
     if (!parsed.success) {
@@ -68,7 +75,40 @@ export function DemoSection() {
       return
     }
 
-    setSubmittedName(parsed.data.name)
+    const endpoint = import.meta.env.VITE_DEMO_FORM_ENDPOINT
+
+    if (!endpoint) {
+      setSubmissionFeedback({
+        message: 'Form endpoint is not configured yet.',
+        type: 'error',
+      })
+      return
+    }
+
+    const response = await fetch(endpoint, {
+      body: JSON.stringify({
+        ...parsed.data,
+        _subject: 'New Tradeyard demo request',
+      }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    })
+
+    if (!response.ok) {
+      setSubmissionFeedback({
+        message: 'We could not send the request. Please try again.',
+        type: 'error',
+      })
+      return
+    }
+
+    setSubmissionFeedback({
+      message: `Thanks, ${parsed.data.name}. We will be in touch soon.`,
+      type: 'success',
+    })
     reset(defaultValues)
   }
 
@@ -157,19 +197,27 @@ export function DemoSection() {
           </motion.div>
 
           <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            {submittedName ? (
-              <p className="text-sm leading-6 text-[#bdb9ae]">
-                Thanks, {submittedName}. Your request is ready for a backend endpoint.
+            {submissionFeedback ? (
+              <p
+                className={cn(
+                  'text-sm leading-6',
+                  submissionFeedback.type === 'success'
+                    ? 'text-[#bdb9ae]'
+                    : 'text-[#ffad8b]',
+                )}
+              >
+                {submissionFeedback.message}
               </p>
             ) : (
               <span aria-hidden="true" />
             )}
             <Button
               type="submit"
+              disabled={isSubmitting}
               icon={<Send size={18} aria-hidden="true" />}
               iconPosition="right"
             >
-              Request demo
+              {isSubmitting ? 'Sending...' : 'Request demo'}
             </Button>
           </div>
         </motion.form>
