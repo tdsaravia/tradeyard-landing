@@ -11,11 +11,15 @@ import { SecuritySection } from '../sections/SecuritySection/SecuritySection'
 import { StatsSection } from '../sections/StatsSection/StatsSection'
 import { WorkflowSection } from '../sections/WorkflowSection/WorkflowSection'
 
-export function LandingPage() {
+type LandingPageProps = {
+  onTryNowClick: () => void
+}
+
+export function LandingPage({ onTryNowClick }: LandingPageProps) {
   return (
     <main className="min-h-screen bg-[#050505] text-[#f3f0e7]">
-      <Navbar />
-      <HeroSection />
+      <Navbar onTryNowClick={onTryNowClick} />
+      <HeroSection onTryNowClick={onTryNowClick} />
       <ProblemSection />
       <StatsSection />
       <FeaturesSection />
@@ -24,8 +28,8 @@ export function LandingPage() {
       <MockupSection />
       <SecuritySection />
       <DemoSection />
-      <FinalCtaSection />
-      <Footer />
+      <FinalCtaSection onTryNowClick={onTryNowClick} />
+      <Footer onTryNowClick={onTryNowClick} />
     </main>
   )
 }

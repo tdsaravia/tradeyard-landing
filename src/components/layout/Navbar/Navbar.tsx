@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import { ArrowRight, Menu, X } from 'lucide-react'
-import tradeyardIcon from '../../../assets/images/traadeyard-icon.png'
+import tradeyardLogo from '../../../assets/images/tradeyard-logo.svg'
 import { Button } from '../../ui/Button/Button'
 import { Container } from '../../ui/Container/Container'
 import { cn } from '../../../lib/cn'
 import type { NavLinkItem } from '../../../types/landing'
 
 const navLinks: NavLinkItem[] = [
-  { label: 'Problem', href: '#problem' },
-  { label: 'Features', href: '#features' },
-  { label: 'Roles', href: '#roles' },
-  { label: 'Safety', href: '#safety' },
+  { label: 'Problem', href: '/#problem' },
+  { label: 'Features', href: '/#features' },
+  { label: 'Roles', href: '/#roles' },
+  { label: 'Safety', href: '/#safety' },
 ]
 
-function scrollToDemo() {
-  document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })
+type NavbarProps = {
+  onTryNowClick: () => void
 }
 
-export function Navbar() {
+export function Navbar({ onTryNowClick }: NavbarProps) {
   const [hasScrolled, setHasScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -45,9 +45,9 @@ export function Navbar() {
     return () => window.removeEventListener('resize', closeMenuOnDesktop)
   }, [])
 
-  const handleDemoClick = () => {
+  const handleTryNowClick = () => {
     setIsMenuOpen(false)
-    scrollToDemo()
+    onTryNowClick()
   }
 
   return (
@@ -66,15 +66,12 @@ export function Navbar() {
           className="flex items-center gap-3"
           aria-label="Tradeyard home"
         >
-          <span className="flex h-10 w-10 items-center justify-center">
-            <img
-              src={tradeyardIcon}
-              alt=""
-              className="h-full w-full object-contain"
-              aria-hidden="true"
-            />
-          </span>
-          <span className="text-xl font-black uppercase">Tradeyard</span>
+          <img
+            src={tradeyardLogo}
+            alt=""
+            className="h-10 w-[154px] object-contain"
+            aria-hidden="true"
+          />
         </motion.a>
 
         <nav className="hidden items-center gap-8 text-sm font-semibold text-[#bdb9ae] md:flex">
@@ -98,15 +95,15 @@ export function Navbar() {
           <Button
             icon={<ArrowRight size={17} aria-hidden="true" />}
             iconPosition="right"
-            onClick={handleDemoClick}
+            onClick={handleTryNowClick}
           >
-            Join waitlist
+            Try it now
           </Button>
         </motion.div>
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-[16px] border border-white/12 bg-[#151515]/85 text-[#f3f0e7] transition hover:border-[#f3631f]/70 md:hidden"
+          className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[16px] border border-white/12 bg-[#151515]/85 text-[#f3f0e7] transition hover:border-[#f3631f]/70 md:hidden"
           aria-expanded={isMenuOpen}
           aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           onClick={() => setIsMenuOpen((currentValue) => !currentValue)}
@@ -142,9 +139,9 @@ export function Navbar() {
             className="mt-4 w-full"
             icon={<ArrowRight size={17} aria-hidden="true" />}
             iconPosition="right"
-            onClick={handleDemoClick}
+            onClick={handleTryNowClick}
           >
-            Join waitlist
+            Try it now
           </Button>
         </motion.div>
       ) : null}

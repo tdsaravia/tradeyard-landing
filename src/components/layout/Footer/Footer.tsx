@@ -1,25 +1,67 @@
-import { Wrench } from 'lucide-react'
 import { motion } from 'motion/react'
+import { Link } from 'react-router'
+import tradeyardLogo from '../../../assets/images/tradeyard-logo.svg'
 import { Container } from '../../ui/Container/Container'
 
-export function Footer() {
+type FooterProps = {
+  onTryNowClick: () => void
+}
+
+const footerLinkClassName =
+  'w-fit cursor-pointer text-left text-sm font-semibold text-[#c8c3b8] transition hover:text-[#f3631f] sm:text-base'
+
+const legalLinkClassName =
+  'text-sm font-medium text-[#a7a39a] transition hover:text-[#f3f0e7]'
+
+export function Footer({ onTryNowClick }: FooterProps) {
   return (
-    <footer className="border-t border-[#242424] bg-[#050505] py-10">
-      <Container className="flex flex-col gap-4 text-[#bdb9ae] md:flex-row md:items-center md:justify-between">
-        <motion.a
-          href="/"
-          whileHover={{ scale: 1.02 }}
-          className="flex items-center gap-3"
-          aria-label="Tradeyard home"
-        >
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f3f0e7] text-black">
-            <Wrench size={19} aria-hidden="true" />
-          </span>
-          <span className="font-black uppercase text-[#f3f0e7]">Tradeyard</span>
-        </motion.a>
-        <p className="text-sm">
-          © 2026 Tradeyard.
-        </p>
+    <footer className="border-t border-[#242424] bg-[#050505] py-14">
+      <Container className="grid gap-10 text-[#a7a39a] lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div className="flex flex-col items-start gap-7">
+          <motion.a
+            href="/"
+            whileHover={{ scale: 1.02 }}
+            className="inline-flex"
+            aria-label="Tradeyard home"
+          >
+            <img
+              src={tradeyardLogo}
+              alt=""
+              className="h-12 w-[186px] object-contain sm:h-14 sm:w-[216px]"
+              aria-hidden="true"
+            />
+          </motion.a>
+
+          <div className="flex flex-col gap-3">
+            <button
+              type="button"
+              className={footerLinkClassName}
+              onClick={onTryNowClick}
+            >
+              Get early access
+            </button>
+            <a className={footerLinkClassName} href="mailto:info@tradeyard.com">
+              info@tradeyard.com
+            </a>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 lg:items-end">
+          <p className="text-sm leading-6 text-[#8f8a82]">
+            © 2026 Tradeyard. All rights reserved.
+          </p>
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 lg:justify-end">
+            <Link className={legalLinkClassName} to="/privacy">
+              Privacy Policy
+            </Link>
+            <Link className={legalLinkClassName} to="/terms">
+              Terms of Service
+            </Link>
+            <Link className={legalLinkClassName} to="/support">
+              Support
+            </Link>
+          </nav>
+        </div>
       </Container>
     </footer>
   )

@@ -5,11 +5,11 @@ import { Container } from '../../components/ui/Container/Container'
 import { fadeUp, staggerContainer } from '../../lib/animations'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
-function scrollToDemo() {
-  document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })
+type FinalCtaSectionProps = {
+  onTryNowClick: () => void
 }
 
-export function FinalCtaSection() {
+export function FinalCtaSection({ onTryNowClick }: FinalCtaSectionProps) {
   const reveal = useScrollReveal({ amount: 0.3 })
 
   return (
@@ -53,10 +53,10 @@ export function FinalCtaSection() {
               className="h-14 px-8 text-base"
               icon={<ArrowRight size={18} aria-hidden="true" />}
               iconPosition="right"
-              onClick={scrollToDemo}
+              onClick={onTryNowClick}
               variant="light"
             >
-              Join waitlist
+              Try it now
             </Button>
           </motion.div>
         </motion.div>

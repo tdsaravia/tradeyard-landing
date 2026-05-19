@@ -18,10 +18,6 @@ import { Container } from '../../components/ui/Container/Container'
 import { fadeUp, staggerContainer } from '../../lib/animations'
 import { heroStats } from './hero-section.data'
 
-function scrollToDemo() {
-  document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })
-}
-
 function IPhoneMockup() {
   return (
     <div className="relative mx-auto w-full max-w-[305px]">
@@ -134,7 +130,11 @@ function IPhoneMockup() {
   )
 }
 
-export function HeroSection() {
+type HeroSectionProps = {
+  onTryNowClick: () => void
+}
+
+export function HeroSection({ onTryNowClick }: HeroSectionProps) {
   const { scrollYProgress } = useScroll()
   const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -48])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.24], [1, 0.42])
@@ -187,9 +187,9 @@ export function HeroSection() {
                 className="h-14 px-8 text-base"
                 icon={<ArrowRight size={18} aria-hidden="true" />}
                 iconPosition="right"
-                onClick={scrollToDemo}
+                onClick={onTryNowClick}
               >
-                Get early access
+                Try it now
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
